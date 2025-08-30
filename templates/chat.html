@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical AI Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
+</head>
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">		
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <!-- Header -->
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight align-items-center">
+                            <div class="img_cont">
+                                <div class="avatar-container">
+                                    <img src="https://img.icons8.com/color/96/000000/doctor-male.png" 
+                                         class="rounded-circle user_img" alt="Medical AI">
+                                    <div class="avatar-ring"></div>
+                                </div>
+                                <span class="online_icon"></span>
+                            </div>
+                            <div class="user_info">
+                                <span><i class="fas fa-robot me-2"></i>Medical AI Assistant</span>
+                                <p><i class="fas fa-heartbeat me-2"></i>Your trusted health companion</p>
+                            </div>
+                            <div class="ms-auto">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-success me-2">
+                                        <i class="fas fa-circle me-1"></i>Online
+                                    </span>
+                                    <i class="fas fa-microchip text-white opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div id="messageFormeight" class="card-body msg_card_body">
+                        <!-- Welcome Message -->
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://img.icons8.com/color/96/000000/doctor-male.png" 
+                                     class="rounded-circle user_img_msg" alt="Medical AI">
+                            </div>
+                            <div class="msg_container">
+                                <div class="welcome-message">
+                                    <h6 class="mb-2"><i class="fas fa-hand-wave me-2"></i>Hello! I'm your Medical AI Assistant</h6>
+                                    <p class="mb-2">I'm here to help you with medical information and answer your health-related questions.</p>
+                                    <p class="mb-0"><small class="text-muted">Ask me anything about health, symptoms, or medical conditions!</small></p>
+                                </div>
+                                <span class="msg_time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="card-footer">
+                        <form id="messageArea" class="input-group">
+                            <input type="text" id="text" name="msg" 
+                                   placeholder="Ask me about your health..." 
+                                   autocomplete="off" class="form-control type_msg" required/>
+                            <div class="input-group-append">
+                                <button type="submit" id="send" class="input-group-text send_btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Quick Actions -->
+                        <div class="quick-actions mt-3 text-center">
+                            <small class="text-muted">Quick questions:</small>
+                            <div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
+                                <button class="btn btn-sm btn-outline-primary quick-question" data-question="What are the symptoms of diabetes?">
+                                    <i class="fas fa-thermometer-half me-1"></i>Diabetes
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary quick-question" data-question="How to lower blood pressure?">
+                                    <i class="fas fa-heartbeat me-1"></i>Blood Pressure
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary quick-question" data-question="What causes headaches?">
+                                    <i class="fas fa-brain me-1"></i>Headaches
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Quick question buttons
+            $('.quick-question').on('click', function() {
+                const question = $(this).data('question');
+                $('#text').val(question);
+                $('#messageArea').submit();
+            });
+            
+            // Main chat functionality
+            $("#messageArea").on("submit", function(event) {
+                event.preventDefault();
+                
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour + ":" + (minute < 10 ? '0' + minute : minute);
+                var rawText = $("#text").val();
+                
+                if (rawText.trim() === '') return;
+                
+                // Add user message
+                var userHtml = `
+                    <div class="d-flex justify-content-end mb-4">
+                        <div class="msg_container_send">
+                            ${rawText}
+                            <span class="msg_time_send">${str_time}</span>
+                        </div>
+                        <div class="img_cont_msg">
+                            <img src="https://img.icons8.com/color/96/000000/user.png" 
+                                 class="rounded-circle user_img_msg" alt="User">
+                        </div>
+                    </div>`;
+                
+                $("#messageFormeight").append(userHtml);
+                $("#text").val("");
+                
+                // Scroll to bottom
+                $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
+                
+                // Show typing indicator
+                var typingHtml = `
+                    <div class="d-flex justify-content-start mb-4 typing-indicator" id="typing-indicator">
+                        <div class="img_cont_msg">
+                            <img src="https://img.icons8.com/color/96/000000/doctor-male.png" 
+                                 class="rounded-circle user_img_msg" alt="Medical AI">
+                        </div>
+                        <div class="msg_container">
+                            <div class="d-flex align-items-center">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                $("#messageFormeight").append(typingHtml);
+                $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
+                
+                // Send request to backend
+                $.ajax({
+                    data: { msg: rawText },
+                    type: "POST",
+                    url: "/get",
+                    timeout: 30000, // 30 second timeout
+                }).done(function(data) {
+                    // Remove typing indicator
+                    $("#typing-indicator").remove();
+                    
+                    // Handle different response formats
+                    let responseText = "";
+                    let isError = false;
+                    
+                    if (typeof data === 'string') {
+                        // Handle string response (backward compatibility)
+                        responseText = data;
+                    } else if (data && typeof data === 'object') {
+                        // Handle JSON response
+                        if (data.status === 'success' && data.answer) {
+                            responseText = data.answer;
+                        } else if (data.error) {
+                            responseText = data.error;
+                            isError = true;
+                        } else {
+                            responseText = "I'm sorry, I couldn't generate a response.";
+                            isError = true;
+                        }
+                    } else {
+                        responseText = "I'm sorry, I couldn't generate a response.";
+                        isError = true;
+                    }
+                    
+                    // Add bot response
+                    var botHtml = `
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://img.icons8.com/color/96/000000/doctor-male.png" 
+                                     class="rounded-circle user_img_msg" alt="Medical AI">
+                            </div>
+                            <div class="msg_container ${isError ? 'border-danger' : ''}">
+                                ${isError ? '<div class="text-danger mb-2"><i class="fas fa-exclamation-triangle me-2"></i>' : ''}
+                                ${responseText}
+                                ${isError ? '</div>' : ''}
+                                <span class="msg_time">${str_time}</span>
+                            </div>
+                        </div>`;
+                    
+                    $("#messageFormeight").append(botHtml);
+                    $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
+                    
+                }).fail(function(xhr, status, error) {
+                    // Remove typing indicator
+                    $("#typing-indicator").remove();
+                    
+                    let errorMessage = "Sorry, I'm having trouble connecting right now. Please try again.";
+                    
+                    // Handle different error types
+                    if (xhr.status === 429) {
+                        errorMessage = "Too many requests. Please wait a moment and try again.";
+                    } else if (xhr.status === 503) {
+                        errorMessage = "Service temporarily unavailable. Please try again in a few minutes.";
+                    } else if (xhr.status === 0 || status === 'timeout') {
+                        errorMessage = "Request timed out. Please check your connection and try again.";
+                    }
+                    
+                    // Show error message
+                    var errorHtml = `
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://img.icons8.com/color/96/000000/doctor-male.png" 
+                                     class="rounded-circle user_img_msg" alt="Medical AI">
+                            </div>
+                            <div class="msg_container border-danger">
+                                <div class="text-danger">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    ${errorMessage}
+                                </div>
+                                <span class="msg_time">${str_time}</span>
+                            </div>
+                        </div>`;
+                    
+                    $("#messageFormeight").append(errorHtml);
+                    $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
+                });
+            });
+            
+            // Auto-focus on input
+            $('#text').focus();
+            
+            // Enter key to send
+            $('#text').on('keypress', function(e) {
+                if (e.which === 13) {
+                    $('#messageArea').submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

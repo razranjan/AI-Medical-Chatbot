@@ -1,0 +1,29 @@
+# Core AI and ML libraries
+sentence-transformers==2.2.2
+langchain
+langchain-pinecone
+langchain_community
+langchain_openai
+langchain_experimental
+
+# Web framework and extensions
+flask
+flask-caching
+flask-limiter
+
+# Document processing
+pypdf
+python-dotenv
+
+# Vector database
+pinecone[grpc]
+
+# Performance and monitoring
+psutil
+memory-profiler
+
+# Development and testing
+pytest
+pytest-cov
+black
+flake8
