@@ -1,6 +1,6 @@
 # 🏥 Medical AI Chatbot - Enhanced Edition
 
-A high-performance, production-ready medical chatbot powered by Generative AI, featuring advanced RAG (Retrieval-Augmented Generation) capabilities, comprehensive monitoring, and enterprise-grade architecture.
+A high-performance, production-ready medical chatbot powered by Generative AI, featuring advanced RAG (Retrieval-Augmented Generation) capabilities and enterprise-grade architecture.
 
 ## ✨ Features
 
@@ -19,11 +19,10 @@ A high-performance, production-ready medical chatbot powered by Generative AI, f
 - **Context-aware responses** based on medical knowledge base
 
 ### 📊 **Monitoring & Observability**
-- **Real-time performance metrics** collection
-- **System resource monitoring** (CPU, memory, disk)
 - **Health check endpoints** for monitoring systems
 - **Comprehensive logging** with structured format
-- **Error tracking** and performance analytics
+- **Error tracking** and performance monitoring
+- **Built-in performance decorators** for function timing
 
 ### 🔒 **Security & Reliability**
 - **Input validation** and sanitization
@@ -75,11 +74,20 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure API Keys
-Edit `config.py` with your API keys:
-```python
+**Option 1: Edit config.py directly**
+```bash
+# Edit config.py and add your API keys
 PINECONE_API_KEY = "your_pinecone_api_key"
 OPENAI_API_KEY = "your_openai_api_key"
 ```
+
+**Option 2: Set Environment Variables (Recommended)**
+```bash
+export PINECONE_API_KEY="your_pinecone_api_key"
+export OPENAI_API_KEY="your_openai_api_key"
+```
+
+**⚠️ IMPORTANT: config.py is already in .gitignore and won't be pushed to Git**
 
 ### 5. Create Vector Index
 ```bash

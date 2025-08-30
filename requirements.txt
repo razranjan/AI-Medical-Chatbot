@@ -19,8 +19,7 @@ python-dotenv
 pinecone[grpc]
 
 # Performance and monitoring
-psutil
-memory-profiler
+# Removed unused monitoring dependencies
 
 # Development and testing
 pytest
