@@ -18,17 +18,17 @@ A high-performance, production-ready medical chatbot powered by Generative AI, f
 - **Document chunking** with optimal overlap strategies
 - **Context-aware responses** based on medical knowledge base
 
-### 📊 **Monitoring & Observability**
-- **Health check endpoints** for monitoring systems
+### 📊 **Observability**
+- **Health check endpoints** for system status
 - **Comprehensive logging** with structured format
-- **Error tracking** and performance monitoring
+- **Error tracking** and performance tracking
 - **Built-in performance decorators** for function timing
 
 ### 🔒 **Security & Reliability**
 - **Input validation** and sanitization
 - **Rate limiting** and abuse prevention
 - **Error handling** with graceful degradation
-- **Health monitoring** and automatic recovery
+- **Health checks** and automatic recovery
 - **Production-ready Docker** configuration
 
 ## 🏗️ Architecture
@@ -115,7 +115,7 @@ End-to-end-Medical-Chatbot-Generative-AI/
 │   ├── __init__.py
 │   ├── helper.py         # Document processing utilities
 │   ├── prompt.py         # AI prompt templates
-│   └── monitoring.py     # Performance monitoring
+│   └── prompt.py         # System prompts
 ├── templates/            # HTML templates
 │   └── chat.html        # Chat interface
 ├── static/              # Static assets
@@ -146,7 +146,7 @@ export MEDICAL_CHATBOT_OPENAI_API_KEY="your_key"
 - `GET /` - Main chat interface
 - `POST /get` - Chat endpoint with rate limiting
 
-### Health & Monitoring
+### Health & Status
 - `GET /health` - Health check endpoint
 - `GET /api/status` - API status information
 
@@ -159,7 +159,7 @@ export MEDICAL_CHATBOT_OPENAI_API_KEY="your_key"
 }
 ```
 
-## 📊 Performance Monitoring
+## 📊 Performance & Health
 
 ### Metrics Collected
 - **Response Times**: Average, min, max, percentiles
@@ -214,7 +214,7 @@ services:
 1. **Build and push Docker image to ECR**
 2. **Deploy to ECS/Fargate** with auto-scaling
 3. **Set up Application Load Balancer**
-4. **Configure CloudWatch monitoring**
+4. **Configure CloudWatch for production observability**
 
 ### Performance Tuning
 - **Enable Redis caching** for production
